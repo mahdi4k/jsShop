@@ -27,8 +27,6 @@ const Product = ({product}) => {
                 </Card.Text>
             </Card.Body>
 
-
-
         </Card>
     );
 };
