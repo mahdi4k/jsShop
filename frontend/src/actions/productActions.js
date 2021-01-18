@@ -8,7 +8,10 @@ import {
 } from "../constants/productConstants";
 import axios from "axios";
 
-//function in function for thunk
+// redux action for calling reducer
+// return object
+// reason function in function is THUNK
+
 export const listProducts = () => async (dispatch)=> {
     try {
         dispatch({
