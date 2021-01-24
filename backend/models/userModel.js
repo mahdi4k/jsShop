@@ -32,7 +32,7 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 }
 
 userSchema.pre('save', async function (next) {
-    // check is  when updating we dont want update password
+    // check is  when updating and we don't want update password
     if (!this.isModified('password')) {
         next()
     }
