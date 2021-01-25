@@ -6,8 +6,8 @@ import './bootstrap.min.css'
 import './index.css';
  import App from './App';
 import reportWebVitals from './reportWebVitals';
-import SweetAlert from 'sweetalert-react';
 import '../node_modules/sweetalert/dist/sweetalert.css'
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

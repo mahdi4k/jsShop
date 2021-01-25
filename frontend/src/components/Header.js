@@ -5,7 +5,6 @@ import Container from "react-bootstrap/Container";
 import {useDispatch, useSelector} from "react-redux";
 import {Logout} from '../actions/userAction'
 import SweetAlert from "sweetalert-react";
-
 const Header = () => {
     const [sweetAlertOff, sweetAlertOn] = useState(false)
 

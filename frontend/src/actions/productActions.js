@@ -10,7 +10,8 @@ import axios from "axios";
 
 // redux action for calling reducer
 // return object
-// reason function in function is THUNK
+// reason function in function is THUNK for async request
+// "dispatch" for dispatch requests
 
 export const listProducts = () => async (dispatch)=> {
     try {
