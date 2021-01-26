@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
 import {Form, Button, Row, Col} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import {getUserDetails} from "../actions/userAction";
-
+import {getUserDetails, updateUserProfile} from "../actions/userAction";
+//we can't use user login detail for update because is be save in localstorage when the user
+//login to website and be not  updated value when a value updated
 const ProfileScreen = ({location, history}) => {
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
@@ -19,9 +19,13 @@ const ProfileScreen = ({location, history}) => {
 
     const {error, loading, user} = userDetails
 
+    // check if user is login
     const userLogin = useSelector(state => state.userLogin)
 
     const {userInfo} = userLogin
+
+    const userUpdateProfile = useSelector(state => state.userUpdateProfile)
+    const {success} = userUpdateProfile
 
     useEffect(() => {
         if (!userInfo) {
@@ -35,7 +39,7 @@ const ProfileScreen = ({location, history}) => {
             }
         }
 
-    }, [history, userInfo, dispatch,user])
+    }, [history, userInfo, dispatch, user])
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -43,7 +47,7 @@ const ProfileScreen = ({location, history}) => {
             setMessage('Password do not match')
         } else {
             // dispatch Update profile
-
+            dispatch(updateUserProfile({id: user._id, name, email, password}))
         }
 
     }
@@ -53,6 +57,7 @@ const ProfileScreen = ({location, history}) => {
             <h2>User Profile</h2>
             {error && <Message variant='danger'>{error}</Message>}
             {message && <Message variant='danger'>{message}</Message>}
+            {success && <Message variant='success'>Profile Updated</Message>}
             {loading && <Loader/>}
             <Form onSubmit={submitHandler}>
 

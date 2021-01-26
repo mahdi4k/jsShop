@@ -10,7 +10,7 @@ import {login} from "../actions/userAction";
 const LoginScreen = ({location,history}) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
+    const [loginMessage , setLoginMessage] = useState(false)
     const dispatch = useDispatch()
 
     const userLogin = useSelector(state => state.userLogin)
@@ -19,9 +19,16 @@ const LoginScreen = ({location,history}) => {
 
     const redirect = location.search ? location.search.split('=')[1] : '/'
 
+
     useEffect(()=>{
         if (userInfo){
             history.push(redirect)
+        }
+        if (redirect === "shipping"){
+
+            setLoginMessage(true)
+        }else {
+            setLoginMessage(false)
         }
 
     },[history,userInfo,redirect])
@@ -34,6 +41,7 @@ const LoginScreen = ({location,history}) => {
         <FormContainer >
             <h1>Sign In</h1>
             {error && <Message variant='danger'>{error}</Message>}
+            {loginMessage && <Message variant='danger'>لطفا ابتدا وارد سایت بشید</Message>}
             {loading && <Loader/>}
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId='email'>
