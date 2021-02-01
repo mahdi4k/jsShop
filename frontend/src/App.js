@@ -1,7 +1,6 @@
-
 //import React , {useState,useEffect} from 'react';
 import React from "react";
-import {BrowserRouter as Router , Route} from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 import './App.css';
 import {Container} from "react-bootstrap";
 import Header from "./components/Header";
@@ -14,29 +13,31 @@ import RegisterScreen from "./screens/RegisterScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import ShippingScreen from "./screens/ShippingScreen";
 import PaymentScreen from "./screens/PaymentScreen";
+import placeOrderScreen from "./screens/placeOrderScreen";
+
 function App() {
 
 
+    return (
+        <Router>
+            <Header/>
+            <Container>
 
-  return (
-      <Router>
-        <Header/>
-        <Container>
+                <Route path='/login' component={LoginScreen}/>
+                <Route path='/shipping' component={ShippingScreen}/>
+                <Route path='/Payment' component={PaymentScreen}/>
+                <Route path='/placeorder' component={placeOrderScreen}/>
+                <Route path='/register' component={RegisterScreen}/>
+                <Route path='/profile' component={ProfileScreen}/>
+                <Route path='/cart/:id?' component={CartScreen}/>
+                <Route path='/product/:id' component={ProductScreen}/>
+                <Route path='/' component={HomeScreen} exact/>
 
-                  <Route path='/login' component={LoginScreen} />
-                  <Route path='/shipping' component={ShippingScreen} />
-                  <Route path='/Payment' component={PaymentScreen} />
-                  <Route path='/register' component={RegisterScreen} />
-                  <Route path='/profile' component={ProfileScreen} />
-                  <Route path='/cart/:id?' component={CartScreen} />
-                  <Route path='/product/:id' component={ProductScreen} />
-                  <Route path='/' component={HomeScreen} exact />
+            </Container>
+            <Footer/>
 
-        </Container>
-        <Footer/>
-
-      </Router>
-  );
+        </Router>
+    );
 }
 
 

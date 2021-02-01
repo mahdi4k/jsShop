@@ -10,6 +10,7 @@ export const cartReducer = (state ={cartItems: [],shippingAddress : {}},action)=
             const existItem = state.cartItems.find(x => x.product === item.product)
 
             if(existItem){
+                // using spread operator for get previous state
                 return{
                     ...state,
                     cartItems: state.cartItems.map(x => x.product === existItem.product ? item : x)

@@ -27,8 +27,8 @@ const orderSchema = mongoose.Schema({
         country: {type: String, required: true},
     },
     paymentMethod: {
-        type: String,
-        required: true,
+        paymentMethod: {type: String},
+
     },
     paymentResult: {
         id: {type: String},
@@ -69,7 +69,8 @@ const orderSchema = mongoose.Schema({
     },
 
 }, {
-    timestamps: true
+    timestamps: true,
+
 })
 const Order = mongoose.model('Order', orderSchema)
 export default Order

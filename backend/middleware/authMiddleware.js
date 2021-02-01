@@ -16,6 +16,7 @@ const protect = expressAsyncHandler (async (req , res , next) => {
 
              next()
          } catch (error) {
+             localStorage.removeItem('userInfo')
              res.status(401)
              throw new Error('Not authorized , token failed')
          }
