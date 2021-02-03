@@ -16,16 +16,17 @@ const ProfileScreen = ({location, history}) => {
     const dispatch = useDispatch()
 
     const userDetails = useSelector(state => state.userDetails)
-
     const {error, loading, user} = userDetails
 
     // check if user is login
     const userLogin = useSelector(state => state.userLogin)
-
     const {userInfo} = userLogin
 
     const userUpdateProfile = useSelector(state => state.userUpdateProfile)
     const {success} = userUpdateProfile
+
+    const orderMyList = useSelector(state => state.orderMyList)
+    const {error:errorOrder, loading:orderLoading, orders} = userUpdateProfile
 
     useEffect(() => {
         if (!userInfo) {

@@ -3,6 +3,7 @@
     <words>
       <w>bcrypt</w>
       <w>dotenv</w>
+      <w>paypal</w>
     </words>
   </dictionary>
 </component>

@@ -3,7 +3,7 @@ import {Container,Row,Col} from "react-bootstrap";
 
 const FormContainer = ({children}) =>{
     return (
-        <Container className='py-3'>
+        <Container className='py-3 w3-animate-opacity'>
             <Row className='justify-content-md-center'>
                 <Col xs={12} md={6}>
                     {children}

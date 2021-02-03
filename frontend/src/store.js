@@ -1,21 +1,28 @@
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
 import {composeWithDevTools} from "redux-devtools-extension";
-import {productListReducer,productDetailsReducer} from "./reducers/productReducer";
+import {productListReducer, productDetailsReducer} from "./reducers/productReducer";
 import {cartReducer} from "./reducers/cartReducer"
-import {userLoginReducer , userRegisterReducer , userDetailsReducer,userUpdateProfileReducer} from "./reducers/userReducers";
-import {orderCreateReducer, orderDetailReducer} from "./reducers/orderReducer";
+import {
+    userLoginReducer,
+    userRegisterReducer,
+    userDetailsReducer,
+    userUpdateProfileReducer
+} from "./reducers/userReducers";
+import {orderCreateReducer, orderDetailReducer, orderListReducer, orderUpdateReducer} from "./reducers/orderReducer";
 
 const reducer = combineReducers({
-    productList : productListReducer,
-    productDetails : productDetailsReducer,
-    cart : cartReducer,
-    userLogin : userLoginReducer,
-    userRegister : userRegisterReducer,
-    userDetails : userDetailsReducer,
-    userUpdateProfile : userUpdateProfileReducer,
-    orderCreate : orderCreateReducer,
-    orderDetails : orderDetailReducer
+    productList: productListReducer,
+    productDetails: productDetailsReducer,
+    cart: cartReducer,
+    userLogin: userLoginReducer,
+    userRegister: userRegisterReducer,
+    userDetails: userDetailsReducer,
+    userUpdateProfile: userUpdateProfileReducer,
+    orderCreate: orderCreateReducer,
+    orderDetails: orderDetailReducer,
+    orderPay: orderUpdateReducer,
+    orderMyList : orderListReducer
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
@@ -27,12 +34,12 @@ const shippingAddressFromStorage = localStorage.getItem('shippingAddress') ? JSO
 const paymentMethodFromStorage = localStorage.getItem('paymentMethod') ? JSON.parse(localStorage.getItem('paymentMethod')) : {}
 
 const initialState = {
-    cart : {
-        cartItems : cartItemsFromStorage,
-        shippingAddress : shippingAddressFromStorage,
-        paymentMethod : paymentMethodFromStorage,
+    cart: {
+        cartItems: cartItemsFromStorage,
+        shippingAddress: shippingAddressFromStorage,
+        paymentMethod: paymentMethodFromStorage,
     },
-    userLogin : {userInfo : userInfoFromStorage}
+    userLogin: {userInfo: userInfoFromStorage}
 }
 
 const middleware = [thunk]

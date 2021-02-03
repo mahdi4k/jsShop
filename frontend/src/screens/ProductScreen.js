@@ -27,7 +27,7 @@ const ProductScreen = ({history,match}) => {
             </Link>
             {
                 loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> :
-                    <Row>
+                    <Row className="w3-animate-opacity">
                         <Col md={6}>
                             <Image fluid src={product.image} alt={product.name}/>
                         </Col>

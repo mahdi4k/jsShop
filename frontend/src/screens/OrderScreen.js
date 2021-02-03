@@ -4,7 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import {Link} from "react-router-dom";
-import {getOrderDetails} from "../actions/orderActions";
+import {getOrderDetails, payOrder} from "../actions/orderActions";
+import {ORDER_PAY_RESET} from "../constants/orderConstants";
 
 const OrderScreen = ({match}) => {
 
@@ -17,8 +18,12 @@ const OrderScreen = ({match}) => {
 
     const {order, loading, error} = orderDetails
 
+    const orderPay = useSelector(state => state.orderPay)
 
-    if (!loading){
+    const { loading:loadingPay, success:successPay} = orderPay
+
+
+    if (!loading) {
         // calculate price
         order.itemsPrice = order.orderItems.reduce((acc, item) => (
             acc + item.price * item.qty
@@ -27,9 +32,15 @@ const OrderScreen = ({match}) => {
         order.shippingPrice = order.itemsPrice > 100 ? 0 : 5
     }
     useEffect(() => {
+        if (!order ||successPay){
+            dispatch({type:ORDER_PAY_RESET})
+        }
         dispatch(getOrderDetails(orderId))
     }, [dispatch, orderId])
 
+    const SuccessPaymentHandler = () => {
+        dispatch(payOrder(orderId ))
+    }
     return loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> :
         <>
             <h1>Order {order._id}</h1>
@@ -48,11 +59,16 @@ const OrderScreen = ({match}) => {
                                     {order.shippingAddress.country},
                                     {order.shippingAddress.postalCode},
                                 </p>
+                                {order.isDelivered ?
+                                    <Message variant='success'>Delivered on {order.deliveredAt}</Message> :
+                                    <Message variant='danger'>Not Delivered</Message>}
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <h2>Payment Method</h2>
                                 <strong>Method : </strong>
-                                {order.paymentMethod.paymentMethod}
+                                <p>  {order.paymentMethod.paymentMethod}</p>
+                                {order.isPaid ? <Message variant='success'>Paid on {order.paidAt}</Message> :
+                                    <Message variant='danger'>Not paid</Message>}
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <h2>Order Items</h2>
@@ -113,7 +129,11 @@ const OrderScreen = ({match}) => {
                                     <Col>${order.totalPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
-
+                            <ListGroup.Item>
+                                 <Button onClick="SuccessPaymentHandler" variant='info'>
+                                     Pay
+                                 </Button>
+                            </ListGroup.Item>
                         </ListGroup>
                     </Card>
                 </Col>
