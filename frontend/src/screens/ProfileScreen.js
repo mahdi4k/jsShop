@@ -29,7 +29,7 @@ const ProfileScreen = ({location, history}) => {
     const {success} = userUpdateProfile
 
     const orderMyList = useSelector(state => state.orderMyList)
-    const {error: errorOrder, loading: orderLoading, data} = orderMyList
+    const {error: errorOrder, loading: orderLoading, orders} = orderMyList
 
     useEffect(() => {
         if (!userInfo) {
@@ -106,33 +106,36 @@ const ProfileScreen = ({location, history}) => {
             <h2>My orders</h2>
             {orderLoading ? <Loader/> : errorOrder ? <Message variant='danger'>{errorOrder}</Message> :
 
-                    <Table striped bordered hover responsive className='table-sm'>
-                        <thead>
+                <Table striped bordered hover responsive className='table-sm'>
+                    <thead>
                         <tr>
                             <th>ID</th>
                             <th>Date</th>
                             <th>Total</th>
                             <th>PAID</th>
                             <th>Delivered</th>
+                            <th>Details</th>
                         </tr>
-                        </thead>
-                        <tbody>
-                            {data.map(order =>(
-                                <tr key={order._id}>
+                    </thead>
+                    <tbody>
+                        {orders.map(order => (
+                            <tr key={order._id}>
                                 <td>{order._id}</td>
-                                    <td>{order.createdAt.substring(0,10)}</td>
-                                    <td>{order.totalPrice}</td>
-                                    <td>{order.isPaid ? order.paidAt.substring(0,10) :  <i style={{color:'red'}} className='fas fa-times'> </i>  }</td>
-                                    <td>{order.isDelivered ? order.isDelivered.substring(0,10) :  <i style={{color:'red'}} className='fas fa-times'> </i>  }</td>
-                                    <td>
-                                        <LinkContainer to={`/order/${order._id}`}>
-                                            <Button variant='light'>Details</Button>
-                                        </LinkContainer>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
+                                <td>{order.createdAt.substring(0, 10)}</td>
+                                <td>{order.totalPrice}</td>
+                                <td>{order.isPaid ? order.paidAt.substring(0, 10) :
+                                    <i style={{color: 'red'}} className='fas fa-times'> </i>}</td>
+                                <td>{order.isDelivered ? order.isDelivered.substring(0, 10) :
+                                    <i style={{color: 'red'}} className='fas fa-times'> </i>}</td>
+                                <td>
+                                    <LinkContainer to={`/order/${order._id}`}>
+                                        <Button variant='light'><i className='fas fa-eye'> </i></Button>
+                                    </LinkContainer>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
 
             }
         </Col>

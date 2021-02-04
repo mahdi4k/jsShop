@@ -7,22 +7,22 @@ import generateToken from '../utils/generateToken.js'
 // @access Public
 const authUser = asyncHandler(async (req, res) => {
 
-    const {email,password} = req.body
+    const {email, password} = req.body
 
-    const  user = await User.findOne({email})
+    const user = await User.findOne({email})
 
-     if(user && (await user.matchPassword(password))) {
-         res.json({
-             _id : user._id,
-             name : user.name,
-             email : user.email,
-             isAdmin : user.isAdmin,
-             token : generateToken(user._id)
-         })
-     } else {
-         res.status(401)
-         throw new Error('Invalid email or password')
-     }
+    if (user && (await user.matchPassword(password))) {
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            token: generateToken(user._id)
+        })
+    } else {
+        res.status(401)
+        throw new Error('Invalid email or password')
+    }
 
 })
 
@@ -32,11 +32,11 @@ const authUser = asyncHandler(async (req, res) => {
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
 
-    const {email,password,name} = req.body
+    const {email, password, name} = req.body
 
-    const  userExist = await User.findOne({email})
+    const userExist = await User.findOne({email})
 
-    if (userExist){
+    if (userExist) {
         res.status(400)
         throw new Error('the user already exists')
     }
@@ -46,17 +46,16 @@ const registerUser = asyncHandler(async (req, res) => {
         email,
         password
     })
-    if (user){
+    if (user) {
         res.status(201).json({
-            _id : user._id,
-            name : user.name,
-            email : user.email,
-            isAdmin : user.isAdmin,
-            token : generateToken(user._id)
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            token: generateToken(user._id)
         })
     }
 })
-
 
 
 // @desc  Get user profile
@@ -68,12 +67,12 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
     if (user) {
         res.json({
-            _id : user._id,
-            name : user.name,
-            email : user.email,
-            isAdmin : user.isAdmin,
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
         })
-    }else {
+    } else {
         res.status('404')
         throw new Error('User not found')
     }
@@ -89,28 +88,37 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
 
     if (user) {
-          user.name = req.body.name || user.name
-          user.email = req.body.email || user.email
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
 
-        if (req.body.password){
+        if (req.body.password) {
             //automatically encrypted in userModel.js {userSchema.pre 'save'}
             user.password = req.body.password
         }
         const updatedUser = await user.save()
 
         res.json({
-            _id : updatedUser._id,
-            name : updatedUser.name,
-            email : updatedUser.email,
-            isAdmin : updatedUser.isAdmin,
-            token : generateToken(updatedUser._id)
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+            token: generateToken(updatedUser._id)
         })
-    }else {
+    } else {
         res.status('404')
         throw new Error('User not found')
     }
 
 })
 
+// @desc  Get all users
+// @route POST /api/users/
+// @access Private Admin
+const getUsers = asyncHandler(async (req, res) => {
 
-export {authUser, getUserProfile , registerUser, updateUserProfile}
+    const user = await User.find({})
+    res.json(user)
+
+})
+
+export {authUser, getUserProfile, registerUser, updateUserProfile , getUsers}
