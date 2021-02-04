@@ -4,9 +4,11 @@ import {
     USER_LOGIN_FAIL,
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
+    USER_DETAILS_RESET,
     USER_LOGOUT, USER_REGISTER_FAIL,
     USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS
 } from "../constants/userConstants";
+import {ORDER_LIST_MY_REST} from '../constants/orderConstants'
 import axios from "axios";
 
 export const login = (email, password) => async (dispatch) => {
@@ -42,7 +44,7 @@ export const login = (email, password) => async (dispatch) => {
 }
 
 
-export const register = (name,email, password) => async (dispatch) => {
+export const register = (name, email, password) => async (dispatch) => {
     try {
         dispatch({
             type: USER_REGISTER_REQUEST
@@ -54,7 +56,7 @@ export const register = (name,email, password) => async (dispatch) => {
             }
         }
 
-        const {data} = await axios.post('/api/users', {name,email, password}, config)
+        const {data} = await axios.post('/api/users', {name, email, password}, config)
 
         dispatch({
             type: USER_REGISTER_SUCCESS,
@@ -79,22 +81,22 @@ export const register = (name,email, password) => async (dispatch) => {
     }
 }
 
-export const getUserDetails = (id) => async (dispatch,getState) => {
+export const getUserDetails = (id) => async (dispatch, getState) => {
     try {
         dispatch({
             type: USER_DETAILS_REQUEST
         })
 
-        const {userLogin : {userInfo}} = getState()
+        const {userLogin: {userInfo}} = getState()
 
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization : `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${userInfo.token}`
             }
         }
 
-        const {data} = await axios.get(`/api/users/${id}`,  config)
+        const {data} = await axios.get(`/api/users/${id}`, config)
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -115,22 +117,22 @@ export const getUserDetails = (id) => async (dispatch,getState) => {
 }
 
 
-export const updateUserProfile = (user) => async (dispatch,getState) => {
+export const updateUserProfile = (user) => async (dispatch, getState) => {
     try {
         dispatch({
             type: USER_UPDATE_REQUEST
         })
 
-        const {userLogin : {userInfo}} = getState()
+        const {userLogin: {userInfo}} = getState()
 
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization : `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${userInfo.token}`
             }
         }
 
-        const {data} = await axios.put(`/api/users/profile`, user,config)
+        const {data} = await axios.put(`/api/users/profile`, user, config)
 
         dispatch({
             type: USER_UPDATE_SUCCESS,
@@ -157,6 +159,12 @@ export const Logout = () => (dispatch) => {
 
     dispatch({
         type: USER_LOGOUT
+    })
+    dispatch({
+        type: USER_DETAILS_RESET
+    })
+    dispatch({
+        type: ORDER_LIST_MY_REST
     })
 
 }
