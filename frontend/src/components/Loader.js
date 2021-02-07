@@ -5,9 +5,9 @@ class Loader extends Component {
     render() {
 
         return (
-            <Spinner animation='border' role='status' style={
+            <Spinner animation='border' variant="primary" role='status' style={
                 {
-                    width:'100px' , height:'100px' , margin : 'auto',display:'block'
+                    width:'50px' , height:'50px' , margin : 'auto',display:'block'
                 }
             }>
                 <span className="sr-only">Loading...</span>

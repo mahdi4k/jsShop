@@ -16,26 +16,27 @@ import PaymentScreen from "./screens/PaymentScreen";
 import placeOrderScreen from "./screens/placeOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
 import UserListScreen from "./screens/UserListScreen";
+import UserEditScreen from "./screens/UserEditScreen";
 
 function App() {
-
 
     return (
         <Router>
             <Header/>
             <Container>
                 <Switch>
-                <Route path='/login' component={LoginScreen}/>
-                <Route path='/shipping' component={ShippingScreen}/>
-                <Route path='/Payment' component={PaymentScreen}/>
-                <Route path='/placeorder' component={placeOrderScreen}/>
-                <Route path='/order/:id' component={OrderScreen}/>
-                <Route path='/register' component={RegisterScreen}/>
-                <Route path='/profile' component={ProfileScreen}/>
-                <Route path='/cart/:id?' component={CartScreen}/>
-                <Route path='/admin/userlist' component={UserListScreen}/>
-                <Route path='/product/:id' component={ProductScreen}/>
-                <Route path='/' component={HomeScreen} exact/>
+                    <Route path='/login' component={LoginScreen}/>
+                    <Route path='/shipping' component={ShippingScreen}/>
+                    <Route path='/Payment' component={PaymentScreen}/>
+                    <Route path='/placeorder' component={placeOrderScreen}/>
+                    <Route path='/order/:id' component={OrderScreen}/>
+                    <Route path='/register' component={RegisterScreen}/>
+                    <Route path='/profile' component={ProfileScreen}/>
+                    <Route path='/cart/:id?' component={CartScreen}/>
+                    <Route path='/admin/userlist' component={UserListScreen}/>
+                    <Route path='/admin/user/:id/edit' component={UserEditScreen}/>
+                    <Route path='/product/:id' component={ProductScreen}/>
+                    <Route path='/' component={HomeScreen} exact/>
                 </Switch>
             </Container>
             <Footer/>
