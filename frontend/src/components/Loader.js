@@ -3,6 +3,7 @@ import {Spinner} from "react-bootstrap";
 
 class Loader extends Component {
     render() {
+
         return (
             <Spinner animation='border' role='status' style={
                 {

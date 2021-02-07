@@ -1,6 +1,6 @@
 //import React , {useState,useEffect} from 'react';
 import React from "react";
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route,Switch} from "react-router-dom";
 import './App.css';
 import {Container} from "react-bootstrap";
 import Header from "./components/Header";
@@ -24,7 +24,7 @@ function App() {
         <Router>
             <Header/>
             <Container>
-
+                <Switch>
                 <Route path='/login' component={LoginScreen}/>
                 <Route path='/shipping' component={ShippingScreen}/>
                 <Route path='/Payment' component={PaymentScreen}/>
@@ -36,7 +36,7 @@ function App() {
                 <Route path='/admin/userlist' component={UserListScreen}/>
                 <Route path='/product/:id' component={ProductScreen}/>
                 <Route path='/' component={HomeScreen} exact/>
-
+                </Switch>
             </Container>
             <Footer/>
 
