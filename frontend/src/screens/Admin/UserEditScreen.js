@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {Form, Button} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
-import FormContainer from "../components/FormContainer";
-import {getUserDetails, adminUpdateUser} from "../actions/userAction";
+import Message from "../../components/Message";
+import Loader from "../../components/Loader";
+import FormContainer from "../../components/FormContainer";
+import {getUserDetails, adminUpdateUser} from "../../actions/userAction";
 import {Link} from "react-router-dom";
-import {USER_ADMIN_UPDATE_RESET} from "../constants/userConstants";
+import {USER_ADMIN_UPDATE_RESET} from "../../constants/userConstants";
 
 const UserEditScreen = ({match, history}) => {
     const userId = match.params.id //url param :id
@@ -37,7 +37,7 @@ const UserEditScreen = ({match, history}) => {
             }
         }
 
-    }, [user, userId, dispatch, successUpdate , history])
+    }, [user, userId, dispatch, successUpdate, history])
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -49,8 +49,8 @@ const UserEditScreen = ({match, history}) => {
             <FormContainer>
 
                 <h1>Edit User</h1>
-                {loadingUpdate && <Loader />}
-                {errorUpdate && <Message variant='danger'>{errorUpdate}</Message> }
+                {loadingUpdate && <Loader/>}
+                {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
                 {loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> : (
                     <Form onSubmit={submitHandler}>
 

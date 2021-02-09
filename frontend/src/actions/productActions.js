@@ -4,53 +4,87 @@ import {
     PRODUCT_LIST_FAIL,
     PRODUCT_DETAILS_REQUEST,
     PRODUCT_DETAILS_SUCCESS,
-    PRODUCT_DETAILS_FAIL
+    PRODUCT_DETAILS_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS
 } from "../constants/productConstants";
 import axios from "axios";
+import {ORDER_LIST_MY_FAIL, ORDER_LIST_MY_REQUEST, ORDER_LIST_MY_SUCCESS} from "../constants/orderConstants";
 
 // redux action for calling reducer
 // return object
 // reason function in function is THUNK for async request
 // "dispatch" for dispatch requests
 
-export const listProducts = () => async (dispatch)=> {
+export const listProducts = () => async (dispatch) => {
     try {
         dispatch({
-            type : PRODUCT_LIST_REQUEST
+            type: PRODUCT_LIST_REQUEST
         })
         const {data} = await axios.get('/api/products')
 
         dispatch({
-            type :PRODUCT_LIST_SUCCESS,
-            payload : data
+            type: PRODUCT_LIST_SUCCESS,
+            payload: data
         })
-    }catch (error) {
-        dispatch ({
-            type : PRODUCT_LIST_FAIL,
-            payload :
-             error.response && error.response.data.message
-            ? error.response.data.message
-                 :error.message
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_LIST_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
         })
     }
 }
 
-export const listProductDetails = (id) => async (dispatch)=>{
+export const listProductDetails = (id) => async (dispatch) => {
     try {
-        dispatch({type : PRODUCT_DETAILS_REQUEST})
+        dispatch({type: PRODUCT_DETAILS_REQUEST})
         const {data} = await axios.get(`/api/products/${id}`)
 
         dispatch({
-            type :PRODUCT_DETAILS_SUCCESS,
-            payload : data
+            type: PRODUCT_DETAILS_SUCCESS,
+            payload: data
         })
-    }catch (error) {
-        dispatch ({
-            type : PRODUCT_DETAILS_FAIL,
-            payload :
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_DETAILS_FAIL,
+            payload:
                 error.response && error.response.data.message
                     ? error.response.data.message
-                    :error.message
+                    : error.message
         })
+    }
+}
+
+export const deleteProduct = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: PRODUCT_DELETE_REQUEST
+        })
+
+        const {userLogin: {userInfo}} = getState()
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        await axios.delete(`/api/products/${id}`, config)
+
+        dispatch({
+            type: PRODUCT_DELETE_SUCCESS,
+
+        })
+
+    } catch (error) {
+
+        dispatch({
+            type: ORDER_LIST_MY_FAIL,
+            payload:
+                error.response && error.response.data.message ? error.response.data.message : error.message && localStorage.removeItem('userInfo')
+
+        })
+
     }
 }
