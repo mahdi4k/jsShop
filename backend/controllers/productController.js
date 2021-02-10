@@ -21,8 +21,8 @@ const getProductById = asyncHandler(async (req, res) => {
     }
 })
 
-// Fetch Delete Product Products (ADMIN)
-// DELETE /api/products
+// Delete Product   (ADMIN)
+// DELETE /api/products/:id
 //Private/Admin
 const DeleteProduct = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id)
@@ -34,4 +34,53 @@ const DeleteProduct = asyncHandler(async (req, res) => {
         res.status(404).json({message: 'Product not found'})
     }
 })
-export {getProducts, getProductById , DeleteProduct}
+
+// Create Product (ADMIN)
+// POST /api/products
+//Private/Admin
+const createProduct = asyncHandler(async (req, res) => {
+     const product = new Product({
+         name : 'Sample name',
+         price : 10,
+         user : req.user._id,
+         image : '/images/sample.jpg',
+         brand : 'sam',
+         category : 'sample',
+         countInStock: 1,
+         numbReviews : 0,
+         description : 'sample description'
+     })
+
+    const createdProduct = await product.save()
+    res.status(201).json(createdProduct)
+})
+
+// Update Product (ADMIN)
+// PUT /api/products/:id
+//Private/Admin
+const updateProduct = asyncHandler(async (req, res) => {
+
+    const {name,price,description,image,brand,category,countInStock} = req.body
+
+    const product  =await Product.findById(req.params.id)
+    if (product){
+        product.name = name
+        product.price = price
+        product.description = description
+        product.image = image
+        product.brand = brand
+        product.category = category
+        product.countInStock = countInStock
+
+        const updatedProduct = await product.save()
+        res.json(updatedProduct)
+    }else{
+        res.status(404)
+        throw new Error('Product not found')
+    }
+
+
+
+})
+
+export {getProducts, getProductById , DeleteProduct , createProduct , updateProduct}
