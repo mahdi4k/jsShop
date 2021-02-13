@@ -4,7 +4,6 @@ import {Form, Button, Col, Container, Row, Image} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import FormContainer from "../../components/FormContainer";
 import {listProductDetails, updateProduct} from "../../actions/productActions";
 import {Link} from "react-router-dom";
 import {PRODUCT_UPDATE_RESET} from "../../constants/productConstants";
@@ -19,7 +18,7 @@ const ProductEditScreen = ({match, history}) => {
     const [category, setCategory] = useState()
     const [countInStock, setCountInStock] = useState()
     const [description, setDescription] = useState('')
-    const [uploading, setUploading] = useState({})
+    const [uploading, setUploading] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -32,10 +31,11 @@ const ProductEditScreen = ({match, history}) => {
 
     useEffect(() => {
         dispatch(listProductDetails(match.params.id))
-    }, []);
+    }, [dispatch, match]);
     useEffect(() => {
 
         if (successUpdate) {
+            //for remove old data product
             dispatch({type: PRODUCT_UPDATE_RESET});
         }
 
@@ -49,6 +49,7 @@ const ProductEditScreen = ({match, history}) => {
             setDescription(product.description)
 
         }
+
     }, [successUpdate, product, dispatch, history, loading])
 
 
@@ -84,17 +85,20 @@ const ProductEditScreen = ({match, history}) => {
 
             });
             const {fileName, filePath} = res.data
-            setImage(fileName)
+
             dispatch(updateProduct({
                 _id: productId,
                 name,
                 price,
-                image : fileName,
+                image: fileName,
                 brand,
                 category,
                 description,
                 countInStock
             }))
+            setImage(fileName)
+            setUploading(true)
+            history.push(`/admin/product/${match.params.id}/edit`)
         } catch (err) {
             if (err.response.status === 500) {
                 console.log('There was a problem with the server');
@@ -183,6 +187,7 @@ const ProductEditScreen = ({match, history}) => {
                                         custom
                                         onChange={onChangeUploadImage}
                                     />
+                                    {uploading}
                                 </div>
 
                                 <input

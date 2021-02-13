@@ -1,7 +1,8 @@
 //import React , {useState,useEffect} from 'react';
-import React from "react";
-import {BrowserRouter as Router, Route,Switch} from "react-router-dom";
+import React, {useEffect} from "react";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import './App.css';
+import jwt from 'jwt-decode'
 import {Container} from "react-bootstrap";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -19,8 +20,18 @@ import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/Admin/UserEditScreen";
 import ProductListScreen from "./screens/Admin/productsListScreen";
 import ProductEditScreen from "./screens/Admin/productEditScreen"
-function App() {
 
+function App() {
+    useEffect(() => {
+        if (localStorage.getItem('userInfo') !== null) {
+            const {token} = JSON.parse(localStorage.getItem('userInfo'))
+            const {exp} = jwt(token)
+            if (Date.now() >= exp * 1000) {
+                localStorage.removeItem('userInfo')
+                (<Redirect to="/"/>)
+            }
+        }
+    }, [Redirect])
     return (
         <Router>
             <Header/>
