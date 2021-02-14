@@ -25,7 +25,7 @@ const UserListScreen = ({history}) => {
             history.push('/login')
         }
 
-    }, [dispatch, history, successDelete,userInfo])
+    }, [dispatch, history, successDelete, userInfo])
 
 
     const UserList = users.map(user => (

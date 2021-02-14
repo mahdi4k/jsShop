@@ -20,6 +20,7 @@ import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/Admin/UserEditScreen";
 import ProductListScreen from "./screens/Admin/productsListScreen";
 import ProductEditScreen from "./screens/Admin/productEditScreen"
+import OrdersList from "./screens/Admin/ordersListScreen";
 
 function App() {
     useEffect(() => {
@@ -47,6 +48,7 @@ function App() {
                     <Route path='/cart/:id?' component={CartScreen}/>
                     <Route path='/admin/userlist' component={UserListScreen}/>
                     <Route path='/admin/productlist' component={ProductListScreen}/>
+                    <Route path='/admin/orderlist' component={OrdersList}/>
                     <Route path='/admin/user/:id/edit' component={UserEditScreen}/>
                     <Route path='/product/:id' component={ProductScreen}/>
                     <Route path='/admin/product/:id/edit' component={ProductEditScreen}/>

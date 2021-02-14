@@ -30,7 +30,7 @@ const ProductScreen = ({history, match}) => {
                 loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> :
                     <Row className="w3-animate-opacity">
                         <Col md={6}>
-                            <Image fluid src={product.image} alt={product.name}/>
+                            <Image fluid src={`/images/${product.image}`} alt={product.name}/>
                         </Col>
                         <Col md={3}>
                             <ListGroup variant='flush'>

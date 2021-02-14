@@ -4,8 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import {Link} from "react-router-dom";
-import {getOrderDetails, payOrder} from "../actions/orderActions";
-import {ORDER_PAY_RESET} from "../constants/orderConstants";
+import {getOrderDetails, payOrder, deliverOrder} from "../actions/orderActions";
+import {ORDER_DELIVER_RESET, ORDER_PAY_RESET,} from "../constants/orderConstants";
 
 const OrderScreen = ({match}) => {
 
@@ -20,8 +20,15 @@ const OrderScreen = ({match}) => {
 
     const orderPay = useSelector(state => state.orderPay)
 
-    const { loading:loadingPay, success:successPay} = orderPay
+    const {loading: loadingPay, success: successPay} = orderPay
 
+    const orderDeliver = useSelector(state => state.orderDeliver)
+
+    const {loading: loadingDeliver, success: successDeliver} = orderDeliver
+
+    const userLogin = useSelector(state => state.userLogin)
+
+    const {userInfo} = userLogin
 
     if (!loading) {
         // calculate price
@@ -32,14 +39,18 @@ const OrderScreen = ({match}) => {
         order.shippingPrice = order.itemsPrice > 100 ? 0 : 5
     }
     useEffect(() => {
-        if (!order ||successPay){
-            dispatch({type:ORDER_PAY_RESET})
+        if (!order || successPay || successDeliver) {
+            dispatch({type: ORDER_PAY_RESET})
+            dispatch({type: ORDER_DELIVER_RESET})
         }
         dispatch(getOrderDetails(orderId))
-    }, [dispatch, orderId])
+    }, [dispatch, orderId, successDeliver, successPay])
 
     const SuccessPaymentHandler = () => {
-        dispatch(payOrder(orderId ))
+        dispatch(payOrder(orderId))
+    }
+    const deliverHandler = () => {
+        dispatch(deliverOrder(order))
     }
     return loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> :
         <>
@@ -87,7 +98,6 @@ const OrderScreen = ({match}) => {
                                                 </Col>
                                                 <Col md={4}>
                                                     {item.qty} x ${item.price} = ${item.qty * item.price}
-
                                                 </Col>
                                             </Row>
                                         ))}
@@ -130,9 +140,19 @@ const OrderScreen = ({match}) => {
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
-                                 <Button onClick="SuccessPaymentHandler" variant='info'>
-                                     Pay
-                                 </Button>
+                                {loadingDeliver && <loader/>}
+                                {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                                    <ListGroup.Item>
+                                        <Button onClick={deliverHandler} type='button' className='btn btn-block'>
+                                            Mark As Delivered
+                                        </Button>
+                                    </ListGroup.Item>
+                                )}
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                <Button onClick="SuccessPaymentHandler" variant='info'>
+                                    Pay
+                                </Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
