@@ -27,6 +27,7 @@ function App() {
         if (localStorage.getItem('userInfo') !== null) {
             const {token} = JSON.parse(localStorage.getItem('userInfo'))
             const {exp} = jwt(token)
+
             if (Date.now() >= exp * 1000) {
                 localStorage.removeItem('userInfo')
                 (<Redirect to="/"/>)
