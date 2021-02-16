@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
+import {Route} from 'react-router-dom'
 import {Navbar, Nav, NavDropdown} from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap'
 import Container from "react-bootstrap/Container";
 import {useDispatch, useSelector} from "react-redux";
 import {Logout} from '../actions/userAction'
 import SweetAlert from "sweetalert-react";
+import SearchBox from "./SearchBox";
+
 const Header = () => {
     const [sweetAlertOff, sweetAlertOn] = useState(false)
 
@@ -38,6 +41,7 @@ const Header = () => {
 
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
+                        <Route render={({history}) => <SearchBox history={history}/>}/>
                         <Nav className="ml-auto">
 
                             <LinkContainer to='/cart'>
@@ -60,7 +64,7 @@ const Header = () => {
                                     </Nav.Link>
                                 </LinkContainer>
                             }
-                            {userInfo && userInfo.isAdmin &&(
+                            {userInfo && userInfo.isAdmin && (
                                 <NavDropdown title='Admin' id='adminmenu'>
                                     <LinkContainer to='/admin/userlist'>
                                         <NavDropdown.Item>
@@ -70,13 +74,13 @@ const Header = () => {
 
                                     <LinkContainer to='/admin/productlist'>
                                         <NavDropdown.Item>
-                                                Product
+                                            Product
                                         </NavDropdown.Item>
                                     </LinkContainer>
 
                                     <LinkContainer to='/admin/orderlist'>
                                         <NavDropdown.Item>
-                                           Orders
+                                            Orders
                                         </NavDropdown.Item>
                                     </LinkContainer>
 

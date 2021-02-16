@@ -29,8 +29,8 @@ function App() {
             const {exp} = jwt(token)
 
             if (Date.now() >= exp * 1000) {
-                localStorage.removeItem('userInfo')
-                (<Redirect to="/"/>)
+                localStorage.clear();
+                 (<Redirect to="/"/>)
             }
         }
     }, [Redirect])
@@ -53,6 +53,7 @@ function App() {
                     <Route path='/admin/user/:id/edit' component={UserEditScreen}/>
                     <Route path='/product/:id' component={ProductScreen}/>
                     <Route path='/admin/product/:id/edit' component={ProductEditScreen}/>
+                    <Route path='/search/:keyword' component={HomeScreen} exact/>
                     <Route path='/' component={HomeScreen} exact/>
                 </Switch>
             </Container>

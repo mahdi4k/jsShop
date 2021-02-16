@@ -1,28 +1,30 @@
 import React, {useEffect} from 'react';
-import {useDispatch,useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import {Col,Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import {listProducts} from "../actions/productActions";
 
 // productList is coming from global state from store.js
 
 
-const HomeScreen = () => {
+const HomeScreen = ({match}) => {
 
-const dispatch = useDispatch()
+    const keyword = match.params.keyword
 
-    useEffect( () => {
+    const dispatch = useDispatch()
 
-        dispatch(listProducts())
+    useEffect(() => {
 
-     },[dispatch])
+        dispatch(listProducts(keyword))
+
+    }, [dispatch,keyword])
 
 //from global state
-const productList = useSelector(state =>state.productList)
+    const productList = useSelector(state => state.productList)
 
-const {loading , error , products} = productList
+    const {loading, error, products} = productList
 
     const productItems = products.map(product => (
         <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -32,9 +34,9 @@ const {loading , error , products} = productList
     return (
         <>
 
-           <h1>Latest Products</h1>
+            <h1>Latest Products</h1>
 
-          {loading ? <Loader/> : error  ? <Message variant='danger'>{error}</Message> : <Row> { productItems }  </Row> }
+            {loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> : <Row> {productItems}  </Row>}
 
         </>
     );

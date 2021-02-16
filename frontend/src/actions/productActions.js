@@ -24,12 +24,12 @@ import {ORDER_LIST_MY_FAIL, ORDER_LIST_MY_REQUEST, ORDER_LIST_MY_SUCCESS} from "
 // reason function in function is THUNK for async request
 // "dispatch" for dispatch requests
 
-export const listProducts = () => async (dispatch) => {
+export const listProducts = (keyword = '') => async (dispatch) => {
     try {
         dispatch({
             type: PRODUCT_LIST_REQUEST
         })
-        const {data} = await axios.get('/api/products')
+        const {data} = await axios.get(`/api/products?keyword=${keyword}`)
 
         dispatch({
             type: PRODUCT_LIST_SUCCESS,

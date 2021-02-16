@@ -5,7 +5,15 @@ import Product from '../models/productModel.js'
 // GET /api/products
 // desc Fetch all products
 const getProducts = asyncHandler(async (req, res) => {
-    const products = await Product.find({})
+    //mongodb syntax
+    const keyword = req.query.keyword ? {
+        name : {
+            $regex : req.query.keyword,
+            $options : 'i'
+        }
+    }:{}
+
+    const products = await Product.find({...keyword})
     res.json(products)
 
 })
