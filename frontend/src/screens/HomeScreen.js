@@ -6,6 +6,7 @@ import Message from "../components/Message";
 import {Col, Row} from "react-bootstrap";
 import {listProducts} from "../actions/productActions";
 import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
 
 // productList is coming from global state from store.js
 
@@ -36,7 +37,7 @@ const HomeScreen = ({match}) => {
     ))
     return (
         <>
-
+            { !keyword && <ProductCarousel/> }
             <h1>Latest Products</h1>
 
             {loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> :
