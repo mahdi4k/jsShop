@@ -5,16 +5,20 @@ import Product from '../models/productModel.js'
 // GET /api/products
 // desc Fetch all products
 const getProducts = asyncHandler(async (req, res) => {
-    //mongodb syntax
-    const keyword = req.query.keyword ? {
-        name : {
-            $regex : req.query.keyword,
-            $options : 'i'
-        }
-    }:{}
+    const pageSize = 4
+    const page = Number(req.query.pageNumber) || 1
 
-    const products = await Product.find({...keyword})
-    res.json(products)
+    const keyword = req.query.keyword ? {
+        name: {
+            //mongodb $regex
+            $regex: req.query.keyword,
+            $options: 'i'
+        }
+    } : {}
+
+    const count = await Product.countDocuments({...keyword})
+    const products = await Product.find({...keyword}).limit(pageSize).skip(pageSize * (page - 1))
+    res.json({products, page, pages: Math.ceil(count / pageSize)})
 
 })
 // Fetch single Products
