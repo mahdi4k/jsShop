@@ -74,9 +74,6 @@ const ProductListScreen = ({history, match}) => {
         }
     }
 
-    const createProductHandler = () => {
-        dispatch(CreateProduct())
-    }
 
     return (
         <>
@@ -85,9 +82,11 @@ const ProductListScreen = ({history, match}) => {
                     <h1>Products</h1>
                 </Col>
                 <Col className='text-right'>
-                    <Button onClick={createProductHandler} className='my-3'>
-                        <i className='fas fa-plus'> </i> Creat product
-                    </Button>
+                    <LinkContainer to={`/admin/product/create`}>
+                        <Button  className='my-3'>
+                            <i className='fas fa-plus'> </i> Creat product
+                        </Button>
+                    </LinkContainer>
                 </Col>
             </Row>
             {loadingDelete && <Loader/>}

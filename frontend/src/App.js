@@ -21,6 +21,7 @@ import UserEditScreen from "./screens/Admin/UserEditScreen";
 import ProductListScreen from "./screens/Admin/productsListScreen";
 import ProductEditScreen from "./screens/Admin/productEditScreen"
 import OrdersList from "./screens/Admin/ordersListScreen";
+import CreateProductScreen from "./screens/Admin/CreateProductScreen";
 
 function App() {
     useEffect(() => {
@@ -55,6 +56,7 @@ function App() {
                     <Route path='/admin/user/:id/edit' component={UserEditScreen}/>
                     <Route path='/product/:id' component={ProductScreen}/>
                     <Route path='/admin/product/:id/edit' component={ProductEditScreen}/>
+                    <Route path='/admin/product/create' component={CreateProductScreen}/>
                     <Route path='/search/:keyword' component={HomeScreen} exact/>
                     <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact/>
                     <Route path='/page/:pageNumber' component={HomeScreen} exact/>

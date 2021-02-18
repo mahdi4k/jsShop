@@ -5,7 +5,7 @@ import Product from '../models/productModel.js'
 // GET /api/products
 // desc Fetch all products
 const getProducts = asyncHandler(async (req, res) => {
-    const pageSize = 4
+    const pageSize = 6
     const page = Number(req.query.pageNumber) || 1
 
     const keyword = req.query.keyword ? {
@@ -51,16 +51,19 @@ const DeleteProduct = asyncHandler(async (req, res) => {
 // POST /api/products
 //Private/Admin
 const createProduct = asyncHandler(async (req, res) => {
+    const {name, price, description, image, brand, category, countInStock} = req.body
+
     const product = new Product({
-        name: 'Sample name',
-        price: 10,
+        name: name,
+        price: price,
         user: req.user._id,
-        image: '/images/sample.jpg',
-        brand: 'sam',
-        category: 'sample',
-        countInStock: 1,
+        image: image,
+        brand: brand,
+        category: category,
+        countInStock: countInStock,
         numbReviews: 0,
-        description: 'sample description'
+        description: description,
+        rating: 0
     })
 
     const createdProduct = await product.save()
@@ -143,4 +146,4 @@ const getTopProducts = asyncHandler(async (req, res) => {
 })
 
 
-export {getProducts, getProductById, DeleteProduct, createProduct, updateProduct, createProductReview , getTopProducts}
+export {getProducts, getProductById, DeleteProduct, createProduct, updateProduct, createProductReview, getTopProducts}

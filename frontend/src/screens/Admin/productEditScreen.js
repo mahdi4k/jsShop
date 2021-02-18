@@ -13,6 +13,7 @@ const ProductEditScreen = ({match, history}) => {
     const [name, setName] = useState('')
     const [price, setPrice] = useState(0)
     const [image, setImage] = useState('/placeholder.png')
+    const [preImage, setPreImage] = useState(null)
     const [file, setFile] = useState('');
     const [brand, setBrand] = useState()
     const [category, setCategory] = useState()
@@ -47,7 +48,6 @@ const ProductEditScreen = ({match, history}) => {
             setCategory(product.category)
             setCountInStock(product.countInStock)
             setDescription(product.description)
-
         }
 
     }, [successUpdate, product, dispatch, history, loading])
@@ -69,14 +69,20 @@ const ProductEditScreen = ({match, history}) => {
 
     }
     const onChangeUploadImage = (e) => {
-        setFile(e.target.files[0]);
-
+        const targetFile = e.target.files[0]
+        setFile(targetFile);
+        setPreImage(targetFile.name)
+        const reader = new FileReader();
+        const url = reader.readAsDataURL(targetFile);
+        reader.onloadend =  () => {
+            setImage(reader.result)
+        }
     }
     const onSubmitUploadImage = async (e) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append('file', file);
-
+        setPreImage(null)
         try {
             const res = await axios.post('/api/upload', formData, {
                 headers: {
@@ -180,10 +186,10 @@ const ProductEditScreen = ({match, history}) => {
                         {loading ? '' : error ? <Message variant='danger'>{error}</Message> : (
                             <form onSubmit={onSubmitUploadImage}>
                                 <div className='custom-file mb-4'>
-                                    <Image fluid src={`/images/${image}`}/>
+                                    <Image fluid src={preImage ? image : `/images/${image}`}/>
                                     <Form.File
                                         id="customFile"
-                                        label="Custom file input"
+                                        label={preImage ? preImage : "choose image"}
                                         custom
                                         onChange={onChangeUploadImage}
                                     />

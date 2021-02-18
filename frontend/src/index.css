@@ -17,3 +17,8 @@ code {
 h3{
   padding: 1rem 0;
 }
+.carousel-item a {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
