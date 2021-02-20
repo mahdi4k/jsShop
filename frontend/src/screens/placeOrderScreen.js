@@ -73,7 +73,7 @@ const PlaceOrderScreen = ({history}) => {
                                         {cart.cartItems.map((item, index) => (
                                             <Row className="mt-3" key={item.product}>
                                                 <Col md={1}>
-                                                    <Image src={item.image} alt={item.name} fluid rounded/>
+                                                    <Image src={`/images/${item.image}`} alt={item.name} fluid rounded/>
                                                 </Col>
                                                 <Col>
                                                     <Link to={`/product/${item.product}`}>

@@ -34,21 +34,21 @@ const ShippingScreen = ({history}) => {
                     </Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId='address'>
+                <Form.Group controlId='City'>
                     <Form.Label>City</Form.Label>
                     <Form.Control required type='text' placeholder='Enter city' value={city}
                                   onChange={(e) => setCity(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId='address'>
+                <Form.Group controlId='postal'>
                     <Form.Label>postal Code</Form.Label>
                     <Form.Control required type='text' placeholder='Enter postalCode' value={postalCode}
                                   onChange={(e) => setPostalCode(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId='address'>
+                <Form.Group controlId='country'>
                     <Form.Label>country</Form.Label>
                     <Form.Control required type='text' placeholder='Enter country' value={country}
                                   onChange={(e) => setCountry(e.target.value)}>

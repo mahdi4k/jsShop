@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Row, Col, ListGroup, Image, Card} from "react-bootstrap";
+import {Button, Row, Col, ListGroup, Image, Card, Nav} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import {Link} from "react-router-dom";
 import {getOrderDetails, payOrder, deliverOrder} from "../actions/orderActions";
 import {ORDER_DELIVER_RESET, ORDER_PAY_RESET,} from "../constants/orderConstants";
+import {LinkContainer} from "react-router-bootstrap";
 
-const OrderScreen = ({match}) => {
+const OrderScreen = ({match,history}) => {
 
     const orderId = match.params.id
 
@@ -39,6 +40,7 @@ const OrderScreen = ({match}) => {
         order.shippingPrice = order.itemsPrice > 100 ? 0 : 5
     }
     useEffect(() => {
+
         if (!order || successPay || successDeliver) {
             dispatch({type: ORDER_PAY_RESET})
             dispatch({type: ORDER_DELIVER_RESET})
@@ -47,7 +49,8 @@ const OrderScreen = ({match}) => {
     }, [dispatch, orderId, successDeliver, successPay])
 
     const SuccessPaymentHandler = () => {
-        dispatch(payOrder(orderId))
+
+        window.open("https://sandbox.zarinpal.com/pg/StartPay/000000000000000000000000000000375698","","width=200,height=100")
     }
     const deliverHandler = () => {
         dispatch(deliverOrder(order))
@@ -89,7 +92,7 @@ const OrderScreen = ({match}) => {
                                         {order.orderItems.map((item, index) => (
                                             <Row className="mt-3" key={item.product}>
                                                 <Col md={1}>
-                                                    <Image src={item.image} alt={item.name} fluid rounded/>
+                                                    <Image src={`/images/${item.image}`} alt={item.name} fluid rounded/>
                                                 </Col>
                                                 <Col>
                                                     <Link to={`/product/${item.product}`}>
@@ -150,9 +153,12 @@ const OrderScreen = ({match}) => {
                                 )}
                             </ListGroup.Item>
                             <ListGroup.Item>
-                                <Button onClick="SuccessPaymentHandler" variant='info'>
-                                    Pay
-                                </Button>
+
+                                    <Button target='_blank' onClick={SuccessPaymentHandler} variant='info'>
+                                        Pay
+                                    </Button>
+
+
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
