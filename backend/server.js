@@ -7,6 +7,7 @@ import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import uploadRoutes from "./routes/uploadRoutes.js";
+import CategoryRoute from "./routes/CategoryRoute.js";
 import ZarinpalCheckout from 'zarinpal-checkout'
 import fileUpload from 'express-fileupload'
 
@@ -26,14 +27,16 @@ app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/upload', uploadRoutes)
+app.use('/api/category', CategoryRoute)
 
 const zarinpal = ZarinpalCheckout.create('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', true);
 
-app.get('/PaymentRequest', function(req, res) {
+app.post('/PaymentRequest', function (req, res) {
+
     zarinpal.PaymentRequest({
-        Amount: '1000',
-        CallbackURL: 'http://siamak.us',
-        Description: 'Hello NodeJS API.',
+        Amount: req.body.totalPrice,
+        CallbackURL: 'http://localhost:3000/authority',
+        Description: 'Pro shop',
         Email: 'hi@siamak.work',
         Mobile: '09120000000'
     }).then(function (response) {

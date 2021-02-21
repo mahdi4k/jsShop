@@ -27,7 +27,6 @@ const ProductListScreen = ({history, match}) => {
     const {loading: loadingCreate, error: errorCreate, success: successCreate, product: createdProduct} = productCreate
 
     useEffect(() => {
-        // WHY?
         dispatch({type: PRODUCT_CREATE_RESET})
         if (!userInfo.isAdmin) {
             history.push('/login')
@@ -83,7 +82,7 @@ const ProductListScreen = ({history, match}) => {
                 </Col>
                 <Col className='text-right'>
                     <LinkContainer to={`/admin/product/create`}>
-                        <Button  className='my-3'>
+                        <Button className='my-3'>
                             <i className='fas fa-plus'> </i> Creat product
                         </Button>
                     </LinkContainer>

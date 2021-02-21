@@ -22,6 +22,7 @@ import ProductListScreen from "./screens/Admin/productsListScreen";
 import ProductEditScreen from "./screens/Admin/productEditScreen"
 import OrdersList from "./screens/Admin/ordersListScreen";
 import CreateProductScreen from "./screens/Admin/CreateProductScreen";
+import CategoryCreateScreen from "./screens/Admin/CategoryProductScreen";
 
 function App() {
     useEffect(() => {
@@ -53,6 +54,7 @@ function App() {
                     <Route path='/admin/productlist' exact component={ProductListScreen}/>
                     <Route path='/admin/productlist/:pageNumber' exact component={ProductListScreen}/>
                     <Route path='/admin/orderlist' component={OrdersList}/>
+                    <Route path='/admin/category' component={CategoryCreateScreen}/>
                     <Route path='/admin/user/:id/edit' component={UserEditScreen}/>
                     <Route path='/product/:id' component={ProductScreen}/>
                     <Route path='/admin/product/:id/edit' component={ProductEditScreen}/>

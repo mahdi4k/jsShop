@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import {getOrderDetails, payOrder, deliverOrder} from "../actions/orderActions";
 import {ORDER_DELIVER_RESET, ORDER_PAY_RESET,} from "../constants/orderConstants";
 import {LinkContainer} from "react-router-bootstrap";
+import axios from "axios";
 
 const OrderScreen = ({match,history}) => {
 
@@ -52,6 +53,12 @@ const OrderScreen = ({match,history}) => {
 
         window.open("https://sandbox.zarinpal.com/pg/StartPay/000000000000000000000000000000375698","","width=200,height=100")
     }
+    const orderHandler = async () => {
+        const {data} = await axios.post('/PaymentRequest',{totalPrice : order.totalPrice})
+        var zarinpalWindows = window.open("", "zarinpalWindows", "fullscreen=yes,titlebar=no,scrollbars=no,resizable=no,menubar=no");
+        zarinpalWindows.document.write(data);
+
+     }
     const deliverHandler = () => {
         dispatch(deliverOrder(order))
     }
@@ -154,7 +161,7 @@ const OrderScreen = ({match,history}) => {
                             </ListGroup.Item>
                             <ListGroup.Item>
 
-                                    <Button target='_blank' onClick={SuccessPaymentHandler} variant='info'>
+                                    <Button target='_blank' onClick={orderHandler} variant='info'>
                                         Pay
                                     </Button>
 
